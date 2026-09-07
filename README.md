@@ -27,6 +27,22 @@ Dieses Repository enthält die vollständige Wissensbasis, API-Referenz, Code-Re
 
 ---
 
+## 🤖 Nutzung in Chatbots & LLM-Plattformen (OpenWebUI, ChatGPT, Custom GPTs, Claude)
+
+Dieses Repository ist so strukturiert, dass es direkt in **jede beliebige Chatbot- oder RAG-Umgebung** eingebunden werden kann — ohne zusätzliche Python-Laufzeitumgebung oder externe Server:
+
+1. **Wissensbasis (RAG / Knowledge) einrichten:**
+   - Erstelle in deiner Plattform (z. B. OpenWebUI Workspace → Knowledge, Custom GPT → Knowledge, Claude Project) eine neue Wissensbasis.
+   - Lade die Dateien aus `references/` und `templates/` hoch.
+2. **System Prompt / Anweisungen setzen:**
+   - Nutze den Inhalt von `references/admbw-extractor-system-prompt.md` als System-Instruction oder Agenten-Prompt.
+3. **Prosa eingeben & Skript ausführen:**
+   - Gib deine Architektur-Prosa im Chat ein.
+   - Das LLM erzeugt das fertige **JavaScript** für Sparx EA.
+   - Kopiere den JS-Code in Sparx Enterprise Architect (`Tools` → `Scripting` → `JavaScript`) und führe ihn aus.
+
+---
+
 ## 📁 Repository-Struktur
 
 ```
