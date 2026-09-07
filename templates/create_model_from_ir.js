@@ -1,10 +1,10 @@
 /*
  * create_model_from_ir.js — baut aus einem IR-JSON (Prosa-Parser-Output) ein EA-Repository.
- * Review-Fixes (EAP 07.09.): ZWEI-PHASEN-Build (erst alle Elemente, dann alle Connectors,
+ * Review-Fixes (EAP 07.09. & Sparx Doku Check): ZWEI-PHASEN-Build (erst alle Elemente, dann alle Connectors,
  * damit paketuebergreifende Beziehungen funktionieren), findConnector-Idempotenz,
- * setTaggedValue statt AddNew-Duplikaten, BatchAppend vor Connector-Phase deaktiviert.
- * Ausfuehrung: EA-Scripting-Fenster (JavaScript). meta/stereo nur, wenn laut
- * admbw-knowledge-topology.md / -connectors.md erlaubt!
+ * setTaggedValue statt AddNew-Duplikaten, BatchAppend vor Connector-Phase deaktiviert,
+ * pkg.Element.Update() fuer Paket-Stereotype.
+ * Ausfuehrung: EA-Scripting-Fenster (JavaScript).
  */
 
 var IR = {
@@ -12,6 +12,7 @@ var IR = {
     packages: [
         {
             name: "C1 - Capability Taxonomy",
+            stereo: "ArchitecturalDescription",
             elements: [
                 { name: "Weltraumaufklärung",   type: "Class", stereo: "Capability", tags: { MoE: "bewertet" } },
                 { name: "Sensornetz",           type: "Class", stereo: "Capability" }
@@ -33,7 +34,7 @@ function findElement(pkg, name) {
     return null;
 }
 
-function addPackage(parentPkg, name) {
+function addPackage(parentPkg, name, stereo) {
     for (var i = 0; i < parentPkg.Packages.Count; i++) {
         var p = parentPkg.Packages.GetAt(i);
         if (p.Name === name) return p;
@@ -41,6 +42,11 @@ function addPackage(parentPkg, name) {
     var pkg = parentPkg.Packages.AddNew(name, "");
     if (!pkg.Update()) { log("PKG FEHLER " + name + ": " + pkg.GetLastError()); return null; }
     parentPkg.Packages.Refresh();
+    if (stereo) {
+        // Offizielle Sparx EA API: Paket-Stereotyp liegt am zugehoerigen Element!
+        pkg.Element.StereotypeEx = stereo;
+        if (!pkg.Element.Update()) { log("PKG EL FEHLER " + name + ": " + pkg.Element.GetLastError()); }
+    }
     return pkg;
 }
 
@@ -114,7 +120,7 @@ function main() {
         // PHASE 1: Pakete + Elemente (ElementID-Referenzen müssen vor Connectors stehen)
         for (var p = 0; p < IR.packages.length; p++) {
             var pspec = IR.packages[p];
-            var pkg = addPackage(model, pspec.name);
+            var pkg = addPackage(model, pspec.name, pspec.stereo);
             if (!pkg) continue;
             built.packages++;
             for (var e = 0; e < pspec.elements.length; e++) {
