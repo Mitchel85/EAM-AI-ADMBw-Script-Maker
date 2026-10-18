@@ -18,7 +18,7 @@ Die Regeldateien in `references/` werden **nicht mehr von Hand gepflegt**, sonde
 **[EAM-ADMBw-MDG-Parser](https://github.com/Mitchel85/EAM-ADMBw-MDG-Parser)** aus der offiziellen
 MDG-Technologie der Bundeswehr erzeugt (Stand: 2026.05):
 
-- `references/admbw-knowledge-stereotypes.md` — **642 Stereotype** (Name, Metatype, Vererbung, AppliesTo)
+- `references/admbw-knowledge-stereotypes.md` — **443 eindeutige Stereotype** (Name, Metatype, Vererbung, AppliesTo)
 - `references/admbw-knowledge-topology.md` — **203 Beziehungsregeln** (Metaconstraints: erlaubte Ziele/Quellen)
 - `references/admbw-knowledge-viewpoints.md` — **53 Viewpoints** mit Properties
 - `references/admbw-knowledge-tagtypes.md` — Tagged-Value-Definitionen mit Typeregeln
