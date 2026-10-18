@@ -1,22 +1,30 @@
-# Sparx Enterprise Architect (EA) Scripting Engine — Prosa → ADMBw (NAFv4)
+# EAM-AI-ADMBw-Script-Maker — EA-Skripte für das ADMBw/NAFv4-Profil
 
-> **KI-gestützte Generierung und Verifikation von EA-JavaScript-Skripten für das Bundeswehr-Profil ADMBw / NAFv4.**
+> **Generiert und verifiziert JavaScript-Skripte für Sparx Enterprise Architect (EA 17.x), die ADMBw/NAFv4-konforme Architekturmodelle erzeugen.**
 
-Dieses Repository enthält die vollständige Wissensbasis, API-Referenz, Code-Rezepte und idempotente Skript-Templates, um aus natürlichsprachlicher Architektur-Prosa automatisierte JavaScript-Skripte für Sparx Enterprise Architect (EA 17.x) zu erzeugen und auszuführen.
+Kern des Repos sind die **EA-Skript-Vorlagen** (Builder + Verifikation). Die **Wissensbasis** (Stereotype, Topologie, Viewpoints) ist der Treibstoff für das LLM, das Prosa in die Skript-Eingabe (IR-JSON) übersetzt.
 
 ---
 
-## 🚀 Übersicht & Pipeline
+## Pipeline
 
 ```
-  [Prosa-Architektur] 
-           │
-           ▼ (LLM mit ADMBw-Extractor-Prompt)
-     [IR-JSON Format]
-           │
-           ▼ (create_model_from_ir.js)
-  [Sparx EA Repository]  ──▶  (verify_model.js) ──▶ [Zählungen & Integrität OK]
+  [Prosa-Architektur] ──(LLM + Wissensbasis)──▶ [IR-JSON] ──(create_model_from_ir.js)──▶ [Sparx EA Repository] ──(verify_model.js)──▶ [Zählungen & Integrität OK]
 ```
+
+## Wissensbasis — automatisch aus der offiziellen MDG
+
+Die Regeldateien in `references/` werden **nicht mehr von Hand gepflegt**, sondern vom
+**[EAM-ADMBw-MDG-Parser](https://github.com/Mitchel85/EAM-ADMBw-MDG-Parser)** aus der offiziellen
+MDG-Technologie der Bundeswehr erzeugt (Stand: 2026.05):
+
+- `references/admbw-knowledge-stereotypes.md` — **642 Stereotype** (Name, Metatype, Vererbung, AppliesTo)
+- `references/admbw-knowledge-topology.md` — **203 Beziehungsregeln** (Metaconstraints: erlaubte Ziele/Quellen)
+- `references/admbw-knowledge-viewpoints.md` — **53 Viewpoints** mit Properties
+- `references/admbw-knowledge-tagtypes.md` — Tagged-Value-Definitionen mit Typeregeln
+- `references/admbw-meta.md` — Version, Quelle, Extraktionszeitpunkt
+
+**Bei MDG-Update:** Parser ausführen, Dateien kopieren, committen — fertig.
 
 ### Kern-Features
 
