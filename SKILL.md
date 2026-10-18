@@ -1,5 +1,5 @@
 ---
-name: sparx-ea-scripts
+name: eam-ai-admbw-script-maker
 description: "Use when generating Sparx EA JS to build ADMBw from prose."
 ---
 
@@ -51,7 +51,7 @@ Architekturprosa (deutsch)  →  Parser → IR-JSON  →  EA-JavaScript-Generato
 
 ## ADMBw / NAFv4
 
-- Wissensbasis (317 Stereotype, 53 Viewpoints, Topologie, EA-Metatypen) = `references/admbw-knowledge-*.md` (Basis: ADMBw v2025.10/2026.05, Quelle u.a. Mitchel85/admbw-extractor + offizielles Bw-Profil-PDF)
+- Wissensbasis (317 Stereotype, 53 Viewpoints, Topologie, EA-Metatypen) = `references/admbw-knowledge-*.md` (Basis: ADMBw v2025.10/2026.05, Quelle u.a. Mitchel85/EAM-AI-ADMBw-Extractor + offizielles Bw-Profil-PDF)
 - MDG: **NAF_V4/ADMBw muss aktiv sein** (EA 15.1+; bei Mitch EA 17.x + MDG installiert ✓).
 - NAFv4 = UML-Erweiterung: MODEM-Elemente = UML-Klasse mit `«Stereotyp»` + Tagged Values; Canonical-Defs in „Common Data“-Packages, Views referenzieren sie (Reuse-through-Reference!).
 
@@ -59,7 +59,7 @@ Architekturprosa (deutsch)  →  Parser → IR-JSON  →  EA-JavaScript-Generato
 
 - `references/ea-api-reference.md` — kondensiertes offizielles Objektmodell (Repository/Package/Element/Connector/Diagram/Collection, Enums, Fakten)
 - `references/ea-code-recipes.md` — JS-Rezepte (offizielle Samples nach JS portiert + Bellekens/Kilian-Muster)
-- `references/admbw-knowledge-stereotypes.md` — **317 ADMBw-Stereotype mit AppliesTo** (Basis: ADMBw v2025.10; Quelle: Mitchel85/admbw-extractor)
+- `references/admbw-knowledge-stereotypes.md` — **642 ADMBw-Stereotype mit AppliesTo** (MDG 2026.05, generiert via Mitchel85/EAM-ADMBw-MDG-Parser)
 - `references/admbw-knowledge-connectors.md` — **EA-Metatyp → Stereotyp-Brücke** (Dependency/Class/Object/Part/…) + 53-Viewpoint-Liste
 - `references/admbw-knowledge-topology.md` — Source → Connector → Target-Regeln (Metaconstraints)
 - `references/admbw-knowledge-viewpoints.md` — 53 Viewpoints mit erlaubten Elementen
