@@ -49,7 +49,7 @@ Jede Beziehung = EA-Metatyp + Stereotyp. Der Stereotyp MUSS auf diesen Metatyp a
 | **Connector** (2) | `OperationalConnector`, `ResourceConnector` |
 | **Aggregation** (2) | `PartOfCatalogue`, `PartOfCategory` |
 
-## Vollständige Viewpoint-Liste (53 Viewpoints, 6 Kategorien)
+## Vollständige Viewpoint-Liste (52 Viewpoints, 6 Kategorien)
 
 ### 🏛️ Concept Viewpoints (C)
 | Kürzel | Name | Fokus |

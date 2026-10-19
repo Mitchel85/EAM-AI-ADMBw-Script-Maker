@@ -18,9 +18,9 @@ Die Regeldateien in `references/` werden **nicht mehr von Hand gepflegt**, sonde
 **[EAM-ADMBw-MDG-Parser](https://github.com/Mitchel85/EAM-ADMBw-MDG-Parser)** aus der offiziellen
 MDG-Technologie der Bundeswehr erzeugt (Stand: 2026.05):
 
-- `references/admbw-knowledge-stereotypes.md` — **443 eindeutige Stereotype** (Name, Metatype, Vererbung, AppliesTo)
-- `references/admbw-knowledge-topology.md` — **203 Beziehungsregeln** (Metaconstraints: erlaubte Ziele/Quellen)
-- `references/admbw-knowledge-viewpoints.md` — **53 Viewpoints** mit Properties
+- `references/admbw-knowledge-stereotypes.md` — **318 Katalog-Stereotype** (293 nutzbar, 25 abstrakt) mit Name, Metatype, Vererbung, AppliesTo
+- `references/admbw-knowledge-topology.md` — **203 Metaconstraint-Regeln**, davon **114 vollständig** (Quelle+Ziel, maschinell prüfbar)
+- `references/admbw-knowledge-viewpoints.md` — **52 Viewpoints** (MDG-Beschreibungen)
 - `references/admbw-knowledge-tagtypes.md` — Tagged-Value-Definitionen mit Typeregeln
 - `references/admbw-meta.md` — Version, Quelle, Extraktionszeitpunkt
 
@@ -28,7 +28,7 @@ MDG-Technologie der Bundeswehr erzeugt (Stand: 2026.05):
 
 ### Kern-Features
 
-- **ADMBw & NAFv4 Konformität:** 443 Stereotype, 53 Viewpoints, strikte Topologie (`Source -> Connector -> Target`) und Metatyp-Mapping (Class, Object, Activity, Dependency, Abstraction, Generalization etc.).
+- **ADMBw & NAFv4 Konformität:** 318 Katalog-Stereotype, 52 Viewpoints, strikte Topologie (`Source -> Connector -> Target`) und Metatyp-Mapping (Class, Object, Activity, Dependency, Abstraction, Generalization etc.).
 - **EA 17.x JavaScript Engine:** ES5/JScript-kompatible Vorlagen mit automatischer Fehlerbehandlung, Logging via `Session.Output` und Paket-/Element-/Connector-Erstellung.
 - **Idempotenz & 2-Phasen-Build mit Sync:** Wiederholtes Ausführen erzeugt keine Dubletten. Phase 1 erstellt alle Elemente und Caches; Phase 2 knüpft Connectors paketübergreifend. Bestehende Pakete/Elemente werden bei IR-Änderungen aktualisiert (Stereotyp, Tags); der Build-Log trennt „neu erzeugt“ von „übersprungen/aktualisiert“.
 - **Automatisierte Verifikation:** `verify_model.js` liest das Repository via `Repository.SQLQuery` re-read-sicher aus und vergleicht **Soll/Ist** (EXPECTED-Block aus dem IR füllen): `null` = kein Sollwert (nur Ist-Zählung), `0` = harte Null, sonst Anzahl; Stereotype nur aus `EXPECTED.stereotypes`. Referenzintegrität und GUID-Eindeutigkeit (t_object **und** t_connector) sind immer SOLL 0. Abweichung ⇒ `VERIFY: FAIL`; ohne gesetzte Sollwerte ist der Report eine reine Zählung, keine Erfolgsgarantie.
@@ -66,10 +66,10 @@ Dieses Repository ist so strukturiert, dass es direkt in **jede beliebige Chatbo
 │   └── mock_ea.js                     # strikter EA-17.x-Objektmodell-Mock (inkl. SQLQuery-XML)
 └── references/                        # KI-Wissensbasis & API-Dokumentation
     ├── admbw-extractor-system-prompt.md # System-Prompt für Prosa -> IR Extraction
-    ├── admbw-knowledge-stereotypes.md  # 443 ADMBw-Stereotype mit AppliesTo-Metatypen
+    ├── admbw-knowledge-stereotypes.md  # 318 ADMBw-Katalog-Stereotype mit AppliesTo-Metatypen
     ├── admbw-knowledge-connectors.md   # Connector-Metatypen & zugeordnete Stereotype
     ├── admbw-knowledge-topology.md     # Topologie-Regeln (Erlaubte Beziehungen)
-    ├── admbw-knowledge-viewpoints.md   # 53 NAFv4 Viewpoints
+    ├── admbw-knowledge-viewpoints.md   # 52 NAFv4 Viewpoints
     ├── admbw-knowledge-tagtypes.md     # Tagged-Value-Definitionen mit Typeregeln
     ├── admbw-meta.md                  # KB-Version, Quelle, Extraktionszeitpunkt
     ├── ea-api-reference.md            # Kondensiertes EA Object Model (364S PDF-Auszug)

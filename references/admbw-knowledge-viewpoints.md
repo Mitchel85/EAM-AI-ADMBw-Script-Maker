@@ -1,7 +1,7 @@
 # ADMBw-Viewpoints (MDG-DiagramProfile)
 
-> Quelle: `/tmp/NAFv4-ADMBw-MDG-2026.05.xml` — automatisch erzeugt am 2026-10-18 22:15 UTC
-> 53 Viewpoints
+> Quelle: `/root/hermes-workspace/architektur-mate-ki/tools/NAFv4-ADMBw-MDG-2026.05.xml` — automatisch erzeugt am 2026-10-19 05:10:54 UTC
+> 52 Viewpoints
 
 ## A1 - Meta-Data Definitions
 Architectures, particularly large ones, usually require meta-data tags to aid with searching and discovery.
@@ -53,8 +53,6 @@ The C8 Viewpoint is concerned with identification and description of assumptions
 
 ## Cr - Capability Roadmap
 The Cr Viewpont supports the Capability Audit process by providing a method to identify gaps or duplications in capability provision. Cr indicates capability increments, which are derived from delivery milestones within acquisition projects.
-
-## Business Process
 
 ## L1 - Node Types
 The L1 Viewpoint defines all of the Nodes that will appear in a Logical Architecture. Nodes are elements of capability assembled and orchestrated in the Logical Architecture (see L2 - Logical Scenario and L4 - Logical Activities views). The levels of capability provided by each node are expressed as

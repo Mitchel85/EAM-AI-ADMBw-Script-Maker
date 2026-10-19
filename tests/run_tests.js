@@ -426,11 +426,11 @@ var irUnknown = JSON.parse(JSON.stringify(IR));
 irUnknown.packages[0].elements[0].stereo = 'VoelligErfundenesStereotyp';
 var bUnknown = buildWith(irUnknown, {});
 var elUnknown = bUnknown.repo.allElements().filter(function (e) { return e.Name === 'Verteilzentrum Hamburg'; })[0];
-add('E3', 'Edge Case', 'unbekanntes Stereotyp (nicht in 443er-KB)',
+add('E3', 'Edge Case', 'unbekanntes Stereotyp (nicht in 318er-KB)',
     'Warnung oder Ablehnung (ADMBw-Konformität)',
     null,
     'StereotypeEx="' + elUnknown.StereotypeEx + '" ohne Warnung gesetzt',
-    'BLOCKED: KB-Validierung gehört in den IR-Generator (LLM), nicht in das EA-Skript — das Skript hat keine 443er-KB und prüft bewusst nur Format/Referenzen.');
+    'BLOCKED: KB-Validierung gehört in den IR-Generator (LLM), nicht in das EA-Skript — das Skript hat keine 318er-KB und prüft bewusst nur Format/Referenzen.');
 
 var irDupSame = JSON.parse(JSON.stringify(IR));
 irDupSame.packages[0].elements = [

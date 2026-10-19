@@ -1,15 +1,16 @@
 # ADMBw-Topologie-Regeln (MDG-Metaconstraints)
 
-> Quelle: `/tmp/NAFv4-ADMBw-MDG-2026.05.xml` — automatisch erzeugt am 2026-10-18 22:15 UTC
-> 203 Stereotype mit Beziehungsregeln (Metaconstraints)
+> Quelle: `/root/hermes-workspace/architektur-mate-ki/tools/NAFv4-ADMBw-MDG-2026.05.xml` — automatisch erzeugt am 2026-10-19 05:10:54 UTC
+> 203 Stereotype mit Beziehungsregeln (Metaconstraints) · 114 vollständig (Quelle und Ziel)
 
 ## Lesart
 
-- **Erlaubte Ziele (client):** Der Stereotype darf nur als Quelle einer Beziehung zu den gelisteten Ziel-Stereotypen stehen.
-- **Erlaubte Quellen (supplier):** Nur die gelisteten Stereotype dürfen als Ziel auf diesen Stereotype zeigen.
+- **Quelle (client):** Nur die gelisteten Stereotype sind als Quelle (client) einer Beziehung dieses Stereotyps erlaubt.
+- **Ziel (supplier):** Nur die gelisteten Stereotype sind als Ziel (supplier) einer Beziehung dieses Stereotyps erlaubt.
 - **Weitere Rollen:** zusätzliche Metamodell-Beschränkungen (Rollennamen direkt aus der MDG).
+- **Vollständigkeit:** Nur Regeln mit Quelle **und** Ziel (114 von 203) sind maschinell prüfbar; Regeln mit ausschließlich „Weiteren Rollen“ dienen als Referenz.
 
-| Stereotype | Erlaubte Ziele (client) | Erlaubte Quellen (supplier) | Weitere Rollen |
+| Stereotype | Quelle (client) | Ziel (supplier) | Weitere Rollen |
 |---|---|---|---|
 | AchievedEffect | Achiever | ActualState |  |
 | ActivityPerformableUnderCondition | BusinessProcess | ActualCondition |  |

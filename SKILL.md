@@ -54,7 +54,7 @@ Architekturprosa (deutsch)  →  Parser → IR-JSON  →  EA-JavaScript-Generato
 
 ## ADMBw / NAFv4
 
-- Wissensbasis (443 eindeutige Stereotype, 203 Topologie-Regeln, 53 Viewpoints, EA-Metatypen) = `references/admbw-knowledge-*.md` — automatisch generiert aus der offiziellen MDG 2026.05 via Mitchel85/EAM-ADMBw-MDG-Parser
+- Wissensbasis (318 Katalog-Stereotype, 203 Topologie-Regeln, 114 vollständige Kanten, 52 Viewpoints, EA-Metatypen) = `references/admbw-knowledge-*.md` — automatisch generiert aus der offiziellen MDG 2026.05 via Mitchel85/EAM-ADMBw-MDG-Parser
 - MDG: **NAF_V4/ADMBw muss aktiv sein** (EA 15.1+; bei Mitch EA 17.x + MDG installiert ✓).
 - NAFv4 = UML-Erweiterung: MODEM-Elemente = UML-Klasse mit `«Stereotyp»` + Tagged Values; Canonical-Defs in „Common Data“-Packages, Views referenzieren sie (Reuse-through-Reference!).
 
@@ -62,10 +62,10 @@ Architekturprosa (deutsch)  →  Parser → IR-JSON  →  EA-JavaScript-Generato
 
 - `references/ea-api-reference.md` — kondensiertes offizielles Objektmodell (Repository/Package/Element/Connector/Diagram/Collection, Enums, Fakten)
 - `references/ea-code-recipes.md` — JS-Rezepte (offizielle Samples nach JS portiert + Bellekens/Kilian-Muster)
-- `references/admbw-knowledge-stereotypes.md` — **443 eindeutige ADMBw-Stereotype mit AppliesTo** (MDG 2026.05, generiert via Mitchel85/EAM-ADMBw-MDG-Parser)
+- `references/admbw-knowledge-stereotypes.md` — **318 Katalog-Stereotype mit AppliesTo** (293 nutzbar, 25 abstrakt; MDG 2026.05, generiert via Mitchel85/EAM-ADMBw-MDG-Parser)
 - `references/admbw-knowledge-connectors.md` — **EA-Metatyp → Stereotyp-Brücke** (Dependency/Class/Object/Part/…) + 53-Viewpoint-Liste
 - `references/admbw-knowledge-topology.md` — Source → Connector → Target-Regeln (Metaconstraints)
-- `references/admbw-knowledge-viewpoints.md` — 53 Viewpoints mit erlaubten Elementen
+- `references/admbw-knowledge-viewpoints.md` — 52 Viewpoints mit MDG-Beschreibung
 - `references/admbw-extractor-system-prompt.md` — kompletter Extractor-Prompt (4 Modi + 8 Validierungs-Checks)
 - `templates/ea_jscript_skeleton.js` — Grundgerüst (Reporting, try/catch, Helpers)
 - `templates/create_model_from_ir.js` — IR→Repository-Builder (Package/Element/Connector, idempotent + Sync bestehender Objekte; Diagramme legt der Builder **bewusst nicht** an — MDG-Diagrammtyp einmal in EA auslesen und manuell anlegen)
