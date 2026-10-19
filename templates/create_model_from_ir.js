@@ -26,6 +26,32 @@ var IR = {
 
 function log(msg) { Session.Output(msg); }
 
+/* Eindeutiger Schlüssel: Paket + Elementname. Verhindert, dass ein
+   gleichnamiges Element in einem anderen Paket einen Connector kapert
+   (AAroN-Referenz: EAObject.Object_ID/Package_ID sind die Identität,
+   nicht der Name). Optional kann das IR in Connectors fromPackage/toPackage
+   setzen; sonst wird zuerst im aktuellen Paket, dann global eindeutig gesucht. */
+function pkgKey(pkgName, elemName) {
+    return String(pkgName) + "\u0001" + String(elemName);
+}
+
+function resolveElement(ref, pkgName, all) {
+    var local = all[pkgKey(pkgName, ref)];
+    if (local) return local;
+    var hits = [];
+    for (var k in all) {
+        if (!all.hasOwnProperty(k)) continue;
+        if (k.split("\u0001")[1] === String(ref)) hits.push(all[k]);
+    }
+    if (hits.length === 1) return hits[0];
+    if (hits.length > 1) {
+        log("CON FEHLER (mehrdeutig): '" + ref + "' existiert in mehreren Paketen — fromPackage/toPackage im IR setzen.");
+        return null;
+    }
+    log("CON FEHLER (unbekannt): '" + ref + "'");
+    return null;
+}
+
 function findElement(pkg, name) {
     for (var i = 0; i < pkg.Elements.Count; i++) {
         var e = pkg.Elements.GetAt(i);
@@ -125,7 +151,7 @@ function main() {
             built.packages++;
             for (var e = 0; e < pspec.elements.length; e++) {
                 var el = addElement(pkg, pspec.elements[e]);
-                if (el) { allElements[pspec.elements[e].name] = el; built.elements++; }
+                if (el) { allElements[pkgKey(pspec.name, pspec.elements[e].name)] = el; built.elements++; }
             }
         }
 
@@ -136,7 +162,9 @@ function main() {
             if (!pspec2.connectors) continue;
             for (var c = 0; c < pspec2.connectors.length; c++) {
                 var cs = pspec2.connectors[c];
-                if (addConnector(allElements[cs.from], allElements[cs.to], cs.meta, cs.stereo)) built.connectors++;
+                var src = resolveElement(cs.from, cs.fromPackage || pspec2.name, allElements);
+                var tgt = resolveElement(cs.to, cs.toPackage || pspec2.name, allElements);
+                if (addConnector(src, tgt, cs.meta, cs.stereo)) built.connectors++;
             }
         }
     } catch (ex) {
