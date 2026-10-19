@@ -1,6 +1,6 @@
 # ADMBw-Stereotype (MDG-extrahiert)
 
-> Quelle: `/root/hermes-workspace/architektur-mate-ki/tools/NAFv4-ADMBw-MDG-2026.05.xml` — automatisch erzeugt am 2026-10-19 05:33:54 UTC
+> Quelle: `../bw-doku-2026-10-19/mdg/NAFv4-ADMBw-MDG-2026.05.xml` — automatisch erzeugt am 2026-10-19 05:45:34 UTC
 > 318 Stereotype · Version: NAFv4-ADMBw-MDG-2026.05.xml
 
 | Stereotype | Metatype | Vererbung | AppliesTo | Beschreibung |
