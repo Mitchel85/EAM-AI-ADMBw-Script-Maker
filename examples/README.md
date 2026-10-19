@@ -26,8 +26,7 @@ mit eingebettetem IR-Beispiel.
 3. Inhalt von [`build_skript.js`](build_skript.js) einfügen, speichern.
 4. Skript ausführen (Rechtsklick → `Run Script`).
 5. `System Output → Script`-Tab: die Zeilen ab `=== BUILD START ===` bis `=== BUILD ENDE ===` kopieren.
-6. Inhalt von [`../templates/verify_model.js`](../templates/verify_model.js) in ein zweites Skript einfügen und ausführen.
+6. Inhalt von [`../templates/verify_model.js`](../templates/verify_model.js) in ein zweites Skript einfügen — **vorher den `EXPECTED`-Block mit den Sollwerten aus dem IR füllen**: `elements: 3`, `connectors: 2`, `stereotypes: { "Node": 2, "ServiceSpecification": 1 }` (Sollwerte aus `ir_beispiel.json`). Ohne Sollwerte liefert Verify nur Ist-Zählungen (`--`) und **kein** PASS-Urteil.
 7. Den `--- VERIFY REPORT ---`-Block ebenfalls kopieren.
 
-**Beide Ausgaben an Michael schicken** — sie werden als Laufprotokoll ins Repo aufgenommen
-(`examples/laufprotokoll.md`). Sollwerte: 1 Paket, 3 Elemente, 2 Connectors, 0 Fehlerzeilen.
+**Beide Ausgaben an Michael schicken.** Erwartung: 1 Paket, 3 Elemente, 2 Connectors, `VERIFY: PASS`, 0 Fehlerzeilen.

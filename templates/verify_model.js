@@ -1,4 +1,4 @@
-/*
+﻿/*
  * verify_model.js — Re-Read-Verifikation nach jedem Write.
  *
  * Review-Fix 19.10.2026 (AAroN-Abgleich, schmitze87/AAroN):
@@ -57,9 +57,13 @@ function sqlNumber(sql, label) {
        Der erste numerische Wert im ersten Row-Block ist die Antwort. */
     var m = String(res).match(/<([A-Za-z0-9_]+)>\s*(-?\d+)\s*<\/\1>/);
     if (m) return parseInt(m[2], 10);
-    /* Fallback: reine Zahl (falls der Treiber bereits skalar liefert). */
-    var n = String(res).replace(/[^0-9-]/g, "");
-    if (n !== "" && !isNaN(parseInt(n, 10))) return parseInt(n, 10);
+    /* Fallback: reine Zahl (falls der Treiber bereits skalar liefert) — nur
+       wenn der String KEINE XML-Tags enthält (sonst Fehler-/leeres Dokument). */
+    var s = String(res);
+    if (s.indexOf('<') === -1) {
+        var n = s.replace(/[^0-9-]/g, "");
+        if (n !== "" && !isNaN(parseInt(n, 10))) return parseInt(n, 10);
+    }
     fail(label + ": Ergebnis nicht als Zahl lesbar: " + String(res).substring(0, 160));
     return -1;
 }
@@ -79,9 +83,10 @@ function checkCount(label, actual, expected) {
 function main() {
     log("=== VERIFY START ===");
 
-    /* 1) Gesamtzahlen */
+    /* 1) Gesamtzahlen (Paket-Elemente zählen nicht als Modell-Elemente:
+       EA legt für jedes Paket ein t_object vom Typ 'Package' an) */
     checkCount("Elemente gesamt",
-        sqlNumber("SELECT COUNT(*) AS C FROM t_object", "Elemente gesamt"),
+        sqlNumber("SELECT COUNT(*) AS C FROM t_object WHERE Object_Type <> 'Package'", "Elemente gesamt"),
         EXPECTED.elements);
     checkCount("Connectors gesamt",
         sqlNumber("SELECT COUNT(*) AS C FROM t_connector", "Connectors gesamt"),
@@ -94,7 +99,7 @@ function main() {
     for (var s in EXPECTED.stereotypes) {
         if (!EXPECTED.stereotypes.hasOwnProperty(s)) continue;
         checkCount("Elemente «" + s + "»",
-            sqlNumber("SELECT COUNT(*) AS C FROM t_object WHERE Stereotype = '" + s.replace(/'/g, "''") + "'",
+            sqlNumber("SELECT COUNT(*) AS C FROM t_object WHERE Stereotype = '" + s.replace(/'/g, "''") + "' AND Object_Type <> 'Package'",
                 "Elemente «" + s + "»"),
             EXPECTED.stereotypes[s]);
     }

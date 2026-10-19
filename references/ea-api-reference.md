@@ -22,7 +22,7 @@
 | `GetElementByID(id)` / `GetElementByGuid(guid)` | Element direkt laden |
 | `GetConnectorByID(id)` / `GetConnectorByGuid(guid)` | Connector direkt laden |
 | `GetTreeSelectedObject()` / `GetTreeSelectedItemType()` | Browser-Auswahl (Typ: `ot*`-Enum) |
-| `SQLQuery(sql)` | Schnelle Abfrage; XML-String, Zeilen-Trenner `-1-`; SELECT MUSS `ea_guid AS CLASSGUID, ...` enthalten |
+| `SQLQuery(sql)` | Schnelle Abfrage; Ergebnis als XML-String `<EADATA><Dataset><Data><Row><ALIAS>wert</ALIAS></Row>…` — KEIN `-1-`-Zeilen-Trenner, KEIN CLASSGUID-Zwang |
 | `BatchAppend` (Boolean) | true = schneller Massen-Insert |
 | `EnableUIUpdates` (Boolean) | false während Builds, am Ende wieder true |
 | `OpenFile(path)` / `Exit()` | VON AUSSEN (COM) |
@@ -91,9 +91,9 @@ c.Refresh()
 ## SQLQuery-Pattern
 
 ```javascript
-var sql = "SELECT ea_guid AS CLASSGUID, Object_ID AS ID, Name, Object_Type, Stereotype " +
+var sql = "SELECT ea_guid, Object_ID, Name, Object_Type, Stereotype " +
           "FROM t_object WHERE Stereotype = 'Capability'";
-var res = Repository.SQLQuery(sql);   // XML-String, Zeilen durch '-1-' getrennt
+var res = Repository.SQLQuery(sql);   // XML-String: <EADATA><Dataset><Data><Row><ea_guid>…</ea_guid></Row>…
 ```
 
 ## Externe COM (außerhalb EA, Windows)

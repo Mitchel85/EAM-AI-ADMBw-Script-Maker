@@ -1,12 +1,23 @@
-/*
+﻿/*
  * EA-JavaScript-Grundgerüst (Scripting-Fenster, Gruppe: JavaScript)
  * Review-Fixes (EAP 07.09.): pkg.Element.Update(), findConnector-Idempotenz,
  * setTaggedValue (MDG-Dubletten vermeiden), BatchAppend-Hinweis.
+ * Nachtlauf 19.10.2026: addPackage idempotent (Namenssuche + Stereo-Sync).
  */
 
 function log(msg) { Session.Output(msg); }
 
 function addPackage(parentPkg, name, stereo) {
+    for (var i = 0; i < parentPkg.Packages.Count; i++) {
+        var p = parentPkg.Packages.GetAt(i);
+        if (p.Name === name) {
+            if (stereo && p.Element.StereotypeEx !== stereo) {
+                p.Element.StereotypeEx = stereo;
+                if (!p.Element.Update()) { log("PKG EL FEHLER " + name + ": " + p.Element.GetLastError()); }
+            }
+            return p;
+        }
+    }
     var pkg = parentPkg.Packages.AddNew(name, "");
     if (!pkg.Update()) { log("PKG FEHLER " + name + ": " + pkg.GetLastError()); return null; }
     parentPkg.Packages.Refresh();

@@ -115,16 +115,22 @@ Session.Output("MDG-Type: " + Repository.GetDiagramByID(<id>).Type);
 ## Rezept 5: Massenzählung (Verifikation)
 
 ```javascript
-function sqlNumber(sql) {
+function sqlNumber(sql, label) {
     var res = Repository.SQLQuery(sql);
-    // EA-Format: <row><ALIAS>wert</ALIAS>...</row> — KEIN <Value>-Tag!
-    var m = res.match(/>\d+<\/[A-Za-z0-9_]+>/i);
-    if (m) { var n = parseInt(m[0].replace(/[^0-9]/g, ''), 10); return isNaN(n) ? 0 : n; }
-    m = res.match(/>\s*(\d+)\s*</);
-    if (m) return parseInt(m[1], 10);
-    return Math.max(0, res.split('-1-').length - 1);
+    // EA-Format: <EADATA><Dataset><Data><Row><ALIAS>wert</ALIAS></Row>… — KEIN <Value>-Tag,
+    // KEIN '-1-'-Trenner. Erstes <ALIAS>zahl</ALIAS> im ersten Row-Block ist die Antwort.
+    var m = String(res).match(/<([A-Za-z0-9_]+)>\s*(-?\d+)\s*<\/\1>/);
+    if (m) return parseInt(m[2], 10);
+    // Fallback nur fuer skalare Treiberantworten (kein XML):
+    if (String(res).indexOf('<') === -1) {
+        var n = String(res).replace(/[^0-9-]/g, '');
+        if (n !== '' && !isNaN(parseInt(n, 10))) return parseInt(n, 10);
+    }
+    // Fehler-/leeres Resultset = Fehler, NICHT 0:
+    if (label) Session.Output('!!  ' + label + ': Ergebnis nicht als Zahl lesbar');
+    return -1;
 }
-var n = sqlNumber("SELECT COUNT(*) AS C FROM t_object WHERE Stereotype = 'Capability'");
+var n = sqlNumber("SELECT COUNT(*) AS C FROM t_object WHERE Stereotype = 'Capability'", "Capabilities");
 Session.Output("Capabilities: " + n);
 ```
 
@@ -161,4 +167,4 @@ function findElement(pkg, name, type) {
 - **`GetAt`-Schleifen**: Referenz einmal holen (lädt sonst bei jedem Zugriff neu).
 - **`StereotypeEx`** statt `Stereotype` bei MDG-Standard-Stereotypen; bei Mehrfach-Stereotypen `Ex` Pflicht.
 - **`DeleteAt(idx, false)`** — zweiten Parameter beachten; danach `Refresh()`.
-- **`SQLQuery`-XML**: Für Zählungen `COUNT(*)` im SQL verwenden und `<Value>`-Knoten auslesen.
+- **`SQLQuery`-XML**: Für Zählungen `COUNT(*) AS C` im SQL verwenden und den `<C>`-Wert per Alias-Regex auslesen — **kein** `<Value>`-Knoten (der existiert nicht), **kein** `-1-`-Trenner. Fehler-/leeres Resultset als Fehler melden, nie als 0 zählen.

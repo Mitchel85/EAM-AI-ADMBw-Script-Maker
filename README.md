@@ -28,10 +28,10 @@ MDG-Technologie der Bundeswehr erzeugt (Stand: 2026.05):
 
 ### Kern-Features
 
-- **ADMBw & NAFv4 Konformität:** 317 Stereotype, 53 Viewpoints, strikte Topologie (`Source -> Connector -> Target`) und Metatyp-Mapping (Class, Object, Activity, Dependency, Abstraction, Generalization etc.).
+- **ADMBw & NAFv4 Konformität:** 443 Stereotype, 53 Viewpoints, strikte Topologie (`Source -> Connector -> Target`) und Metatyp-Mapping (Class, Object, Activity, Dependency, Abstraction, Generalization etc.).
 - **EA 17.x JavaScript Engine:** ES5/JScript-kompatible Vorlagen mit automatischer Fehlerbehandlung, Logging via `Session.Output` und Paket-/Element-/Connector-Erstellung.
-- **Idempotenz & 2-Phasen-Build:** Wiederholtes Ausführen erzeugt keine Dubletten. Phase 1 erstellt alle Elemente und Caches; Phase 2 knüpft Connectors paketübergreifend.
-- **Automatisierte Verifikation:** `verify_model.js` liest das Repository via `Repository.SQLQuery` re-read-sicher aus, prüft Stereotypen-Zählungen, Referenzintegrität und GUID-Eindeutigkeit.
+- **Idempotenz & 2-Phasen-Build mit Sync:** Wiederholtes Ausführen erzeugt keine Dubletten. Phase 1 erstellt alle Elemente und Caches; Phase 2 knüpft Connectors paketübergreifend. Bestehende Pakete/Elemente werden bei IR-Änderungen aktualisiert (Stereotyp, Tags); der Build-Log trennt „neu erzeugt“ von „übersprungen/aktualisiert“.
+- **Automatisierte Verifikation:** `verify_model.js` liest das Repository via `Repository.SQLQuery` re-read-sicher aus und vergleicht **Soll/Ist** (EXPECTED-Block aus dem IR füllen): `null` = kein Sollwert (nur Ist-Zählung), `0` = harte Null, sonst Anzahl; Stereotype nur aus `EXPECTED.stereotypes`. Referenzintegrität und GUID-Eindeutigkeit (t_object **und** t_connector) sind immer SOLL 0. Abweichung ⇒ `VERIFY: FAIL`; ohne gesetzte Sollwerte ist der Report eine reine Zählung, keine Erfolgsgarantie.
 
 ---
 
@@ -59,14 +59,19 @@ Dieses Repository ist so strukturiert, dass es direkt in **jede beliebige Chatbo
 ├── SKILL.md                           # Hermes Agent Skill-Spezifikation & Prompting-Regeln
 ├── templates/                         # Ausführbare EA JavaScript-Vorlagen
 │   ├── ea_jscript_skeleton.js         # ES5-Grundgerüst mit idempotenten Helper-Funktionen
-│   ├── create_model_from_ir.js        # 2-Phasen-Modellbauer aus IR-JSON-Strukturen
-│   └── verify_model.js                # Re-Read Verifikations-Skript (SQLQuery-Parsing)
+│   ├── create_model_from_ir.js        # 2-Phasen-Modellbauer aus IR-JSON-Strukturen (mit Sync)
+│   └── verify_model.js                # Re-Read Verifikation mit Soll/Ist-Abgleich (EXPECTED)
+├── tests/                             # Node-Testsuite gegen In-Memory-EA-Mock
+│   ├── run_tests.js                   # Testmatrix (node tests/run_tests.js; Exit 0 = grün)
+│   └── mock_ea.js                     # strikter EA-17.x-Objektmodell-Mock (inkl. SQLQuery-XML)
 └── references/                        # KI-Wissensbasis & API-Dokumentation
     ├── admbw-extractor-system-prompt.md # System-Prompt für Prosa -> IR Extraction
-    ├── admbw-knowledge-stereotypes.md  # 317 ADMBw-Stereotype mit AppliesTo-Metatypen
+    ├── admbw-knowledge-stereotypes.md  # 443 ADMBw-Stereotype mit AppliesTo-Metatypen
     ├── admbw-knowledge-connectors.md   # Connector-Metatypen & zugeordnete Stereotype
     ├── admbw-knowledge-topology.md     # Topologie-Regeln (Erlaubte Beziehungen)
     ├── admbw-knowledge-viewpoints.md   # 53 NAFv4 Viewpoints
+    ├── admbw-knowledge-tagtypes.md     # Tagged-Value-Definitionen mit Typeregeln
+    ├── admbw-meta.md                  # KB-Version, Quelle, Extraktionszeitpunkt
     ├── ea-api-reference.md            # Kondensiertes EA Object Model (364S PDF-Auszug)
     └── ea-code-recipes.md             # 7 praxiserprobte JS-Code-Rezepte
 ```
@@ -83,6 +88,19 @@ Dieses Repository ist so strukturiert, dass es direkt in **jede beliebige Chatbo
    Rechtsklick auf das Skript → `Run Script`.
 4. **Verifizieren:**  
    Code aus `templates/verify_model.js` ausführen und Ausgaben in `Session.Output` prüfen.
+
+---
+
+## 🧪 Tests (ohne EA — Node + In-Memory-Mock)
+
+```bash
+node tests/run_tests.js
+```
+
+- Führt alle Vorlagen (Builder, Verify, Skeleton) gegen einen strikten EA-17.x-Objektmodell-Mock aus (`tests/mock_ea.js`, inkl. SQLQuery-XML).
+- Deckt ab: Syntax/ES5/BOM, Build, Idempotenz + Sync, **Verify-Soll/Ist-Semantik** (`null`/`0`/Anzahl, SQL-Fehler, doppelte GUIDs, Realization), Edge Cases, Performance.
+- **Exit 0 = grün** (kein echter FAIL); BLOCKED = dokumentierte Limitation (z. B. KB-Validierung gehört in den Generator, Diagramme werden bewusst nicht gebaut).
+- Ergebnis: `tests/results.json`.
 
 ---
 

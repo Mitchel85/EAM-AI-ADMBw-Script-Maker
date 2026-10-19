@@ -39,15 +39,18 @@ Architekturprosa (deutsch)  →  Parser → IR-JSON  →  EA-JavaScript-Generato
 6. **Stereotype**: `Element.StereotypeEx` (mehrere durch Komma), MDG-Stereotype nur setzen, wenn MDG-Technologie aktiv ist.
 7. **Tagged Values**: `Element.TaggedValues.AddNew(name, value)` → `Update()` → `Refresh()`.
 8. **Diagramme**: `Diagram.Type` = genauer Diagramm-Typ-String — für MDG-Views den Typ **einmal manuell erzeugen und per Skript auslesen** (Diag.Type), dann im Generator verwenden.
-9. **Langsame Muster**: `Repository.SQLQuery` (SELECT muss `ea_guid AS CLASSGUID` liefern; Ergebnis-Format: „-1-“-getrennte Zeilen) für schnelle Zählungen statt Objekt-Schleifen.
+9. **Langsame Muster**: `Repository.SQLQuery` liefert XML `<EADATA><Dataset><Data><Row><ALIAS>wert</ALIAS></Row>…` — **kein** `-1-`-Trenner und **kein** CLASSGUID-Zwang; Parser-Muster siehe `templates/verify_model.js` (`sqlNumber`). Fehler-/leere Resultsets sind Fehler, nie Zählwert 0.
 10. **Idempotenz**: Vor `AddNew` immer nach vorhandenem Namen suchen — Skript muss mehrfach laufen können, ohne Duplikate zu erzeugen.
 
 ## Verifikation (Pflicht nach jedem Write)
 
-1. **Re-Read**: Zählung per SQLQuery/Schleife — Elemente je Stereotyp, Connectors je Typ, Diagramme je View (Soll vs. Ist).
-2. **Referenzintegrität**: Jeder Connector hat Start/End-IDs; geprüft via `GetConnectorByID` + `GetElementByID`.
-3. **Nach Report nie „alles grün“ behaupten ohne Re-Read-Nachweis** (vgl. KDP-Lektion 2026-09: kaputtes Ergebnis sah „fertig“ aus).
-4. Template: `templates/verify_model.js`.
+1. **Re-Read**: Zählung per SQLQuery — Elemente je Stereotyp, Connectors je Typ, Diagramme je View (Soll vs. Ist).
+2. **Sollwerte**: Im Template `templates/verify_model.js` den `EXPECTED`-Block aus dem IR füllen:
+   - `elements`/`connectors`/`diagrams`: **`null` = kein Sollwert** (nur Ist-Zählung `--`, keine Bestätigung), **`0` = harte Null** (IST > 0 ⇒ FAIL), sonst Anzahl.
+   - `stereotypes`: Map `Stereotyp -> Anzahl`; **nur** genannte Stereotype werden geprüft (keine hartkodierte Checkliste).
+3. **Urteil**: `VERIFY: FAIL` sobald ein Sollwert abweicht oder ein SQL-Ergebnis unlesbar ist (auch leeres Resultset = Fehler, nie „OK 0“). `VERIFY: PASS (nur geprüfte Sollwerte …)` — ohne gesetzte Sollwerte ist das eine reine Zählung, **keine** Erfolgsgarantie.
+4. **Immer SOLL 0**: Referenzintegrität (ungültige Endpunkte) + doppelte GUIDs über `t_object` **und** `t_connector`.
+5. **Nach Report nie „alles grün“ behaupten ohne Re-Read-Nachweis** (vgl. KDP-Lektion 2026-09: kaputtes Ergebnis sah „fertig“ aus).
 
 ## ADMBw / NAFv4
 
@@ -59,14 +62,15 @@ Architekturprosa (deutsch)  →  Parser → IR-JSON  →  EA-JavaScript-Generato
 
 - `references/ea-api-reference.md` — kondensiertes offizielles Objektmodell (Repository/Package/Element/Connector/Diagram/Collection, Enums, Fakten)
 - `references/ea-code-recipes.md` — JS-Rezepte (offizielle Samples nach JS portiert + Bellekens/Kilian-Muster)
-- `references/admbw-knowledge-stereotypes.md` — **642 ADMBw-Stereotype mit AppliesTo** (MDG 2026.05, generiert via Mitchel85/EAM-ADMBw-MDG-Parser)
+- `references/admbw-knowledge-stereotypes.md` — **443 eindeutige ADMBw-Stereotype mit AppliesTo** (MDG 2026.05, generiert via Mitchel85/EAM-ADMBw-MDG-Parser)
 - `references/admbw-knowledge-connectors.md` — **EA-Metatyp → Stereotyp-Brücke** (Dependency/Class/Object/Part/…) + 53-Viewpoint-Liste
 - `references/admbw-knowledge-topology.md` — Source → Connector → Target-Regeln (Metaconstraints)
 - `references/admbw-knowledge-viewpoints.md` — 53 Viewpoints mit erlaubten Elementen
 - `references/admbw-extractor-system-prompt.md` — kompletter Extractor-Prompt (4 Modi + 8 Validierungs-Checks)
 - `templates/ea_jscript_skeleton.js` — Grundgerüst (Reporting, try/catch, Helpers)
-- `templates/create_model_from_ir.js` — IR→Repository-Builder (Package/Element/Connector/Diagram, idempotent)
-- `templates/verify_model.js` — Re-Read-Verifikation + Report
+- `templates/create_model_from_ir.js` — IR→Repository-Builder (Package/Element/Connector, idempotent + Sync bestehender Objekte; Diagramme legt der Builder **bewusst nicht** an — MDG-Diagrammtyp einmal in EA auslesen und manuell anlegen)
+- `templates/verify_model.js` — Re-Read-Verifikation mit Soll/Ist-Abgleich (EXPECTED aus dem IR; null/0-Semantik) + Report
+- `tests/run_tests.js` + `tests/mock_ea.js` — Node-Testsuite gegen In-Memory-EA-Mock (`node tests/run_tests.js`, Exit 0 = grün)
 
 ## Offizielle Quellen
 
@@ -80,7 +84,7 @@ Architekturprosa (deutsch)  →  Parser → IR-JSON  →  EA-JavaScript-Generato
 
 - **Zivil-Begriffe vermeiden**: ADMBw-Modellierung braucht Bw-Wording (Organisationsbereich, Bedarfsträger, Leitungsebene) — nicht Unternehmens-/Stakeholder-Sprache (vgl. MVA-Framework).
 - **MDG-Diagramm-Typ**: „Logical“ usw. sind Standard; MDG-Views brauchen den echten Typ-String — nicht raten, einmal auslesen.
-- **Doppelte Namen**: EA erlaubt meist Duplikate — Generator MUSS auf GUID sichern, nicht auf Namen.
+- **Doppelte Namen**: EA erlaubt meist Duplikate — Generator MUSS auf GUID sichern, nicht auf Namen. Der Builder nutzt **paketqualifizierte Identität** (Paket + Elementname); Duplikate im selben Paket werden als `EL DUBLETTE` gemeldet (zweite Spezifikation überschreibt per Sync), gleiche Namen in verschiedenen Paketen verdrahten keine falschen Connectors.
 - **Umlaute in Skripten**: Skript-Dateien als UTF-8 mit BOM speichern (EA-Scriptfenster), sonst Encoding-Artefakte.
 - **ES5-konform bleiben** (`var`, `function`), kein exotisches modernes JS im EA-Script-Fenster.
 
