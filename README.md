@@ -19,7 +19,7 @@ Die Regeldateien in `references/` werden **nicht mehr von Hand gepflegt**, sonde
 MDG-Technologie der Bundeswehr erzeugt (Stand: 2026.05):
 
 - `references/admbw-knowledge-stereotypes.md` — **318 Katalog-Stereotype** (293 nutzbar, 25 abstrakt) mit Name, Metatype, Vererbung, AppliesTo
-- `references/admbw-knowledge-topology.md` — **203 Metaconstraint-Regeln**, davon **114 vollständig** (Quelle+Ziel, maschinell prüfbar)
+- `references/admbw-knowledge-topology.md` — **203 Metaconstraint-Regeln**, davon **133 vollständig** (Quelle+Ziel, maschinell prüfbar)
 - `references/admbw-knowledge-viewpoints.md` — **52 Viewpoints** (MDG-Beschreibungen)
 - `references/admbw-knowledge-tagtypes.md` — Tagged-Value-Definitionen mit Typeregeln
 - `references/admbw-meta.md` — Version, Quelle, Extraktionszeitpunkt

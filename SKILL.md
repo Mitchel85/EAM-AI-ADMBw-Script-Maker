@@ -54,7 +54,7 @@ Architekturprosa (deutsch)  →  Parser → IR-JSON  →  EA-JavaScript-Generato
 
 ## ADMBw / NAFv4
 
-- Wissensbasis (318 Katalog-Stereotype, 203 Topologie-Regeln, 114 vollständige Kanten, 52 Viewpoints, EA-Metatypen) = `references/admbw-knowledge-*.md` — automatisch generiert aus der offiziellen MDG 2026.05 via Mitchel85/EAM-ADMBw-MDG-Parser
+- Wissensbasis (318 Katalog-Stereotype, 203 Topologie-Regeln, 133 vollständige Kanten, 52 Viewpoints, EA-Metatypen) = `references/admbw-knowledge-*.md` — automatisch generiert aus der offiziellen MDG 2026.05 via Mitchel85/EAM-ADMBw-MDG-Parser
 - MDG: **NAF_V4/ADMBw muss aktiv sein** (EA 15.1+; bei Mitch EA 17.x + MDG installiert ✓).
 - NAFv4 = UML-Erweiterung: MODEM-Elemente = UML-Klasse mit `«Stereotyp»` + Tagged Values; Canonical-Defs in „Common Data“-Packages, Views referenzieren sie (Reuse-through-Reference!).
 
