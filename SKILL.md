@@ -62,7 +62,7 @@ Architekturprosa (deutsch)  →  Parser → IR-JSON  →  EA-JavaScript-Generato
 
 - `references/ea-api-reference.md` — kondensiertes offizielles Objektmodell (Repository/Package/Element/Connector/Diagram/Collection, Enums, Fakten)
 - `references/ea-code-recipes.md` — JS-Rezepte (offizielle Samples nach JS portiert + Bellekens/Kilian-Muster)
-- `references/admbw-knowledge-stereotypes.md` — **318 Katalog-Stereotype mit AppliesTo** (293 nutzbar, 25 abstrakt; MDG 2026.05, generiert via Mitchel85/EAM-ADMBw-MDG-Parser)
+- `references/admbw-knowledge-stereotypes.md` — **318 Katalog-Stereotype mit AppliesTo** (293 nutzbar, 44 abstrakt; MDG 2026.05, generiert via Mitchel85/EAM-ADMBw-MDG-Parser)
 - `references/admbw-knowledge-connectors.md` — **EA-Metatyp → Stereotyp-Brücke** (Dependency/Class/Object/Part/…) + 53-Viewpoint-Liste
 - `references/admbw-knowledge-topology.md` — Source → Connector → Target-Regeln (Metaconstraints)
 - `references/admbw-knowledge-viewpoints.md` — 52 Viewpoints mit MDG-Beschreibung
