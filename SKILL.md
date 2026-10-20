@@ -66,6 +66,9 @@ Architekturprosa (deutsch)  →  Parser → IR-JSON  →  EA-JavaScript-Generato
 - `references/admbw-knowledge-connectors.md` — **EA-Metatyp → Stereotyp-Brücke** (Dependency/Class/Object/Part/…) + 53-Viewpoint-Liste
 - `references/admbw-knowledge-topology.md` — Source → Connector → Target-Regeln (Metaconstraints)
 - `references/admbw-knowledge-viewpoints.md` — 52 Viewpoints mit MDG-Beschreibung
+- `references/admbw-knowledge-stereotype-tags.md` — 225 konkrete Tags an 66 Stereotypen (Typ, erlaubte Werte, Default)
+- `references/admbw-prompt.md` — gemeinsamer Prompt-Kern (Auftrag, eiserne Regeln, Ausgabeformat, Dateiverzeichnis)
+- `references/admbw-meta.md` — MDG-Version, Extraktionszeit, Kennzahlen
 - `references/admbw-extractor-system-prompt.md` — kompletter Extractor-Prompt v7.1 (4 Modi + 9 Checks, Abstrakt-Auflösung; Sync aus dem Extractor-Repo)
 - `templates/ea_jscript_skeleton.js` — Grundgerüst (Reporting, try/catch, Helpers)
 - `templates/create_model_from_ir.js` — IR→Repository-Builder (Package/Element/Connector, idempotent + Sync bestehender Objekte; Diagramme legt der Builder **bewusst nicht** an — MDG-Diagrammtyp einmal in EA auslesen und manuell anlegen)
