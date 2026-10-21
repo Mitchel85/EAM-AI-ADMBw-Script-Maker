@@ -7,7 +7,7 @@ description: "Use when generating Sparx EA JS to build ADMBw from prose."
 
 ## When to Use
 
-- User will eine Architektur **aus deutscher Prosa automatisiert in Sparx EA** erzeugen (Prosa → Skript → Architektur)
+- User will eine Architektur aus deutscher Prosa automatisiert in Sparx Systems Enterprise Architect erzeugen (Prosa → Skript → Architektur)
 - User braucht **ADMBw/NAFv4-konforme Elemente, Beziehungen, Diagrams** per Skript (Batch/Massendatenänderungen mit Funktionen)
 - Code-Generierung, Konsistenz-Checks, Massenimport in ein EA-Repository
 - Vorstufe zur Verifikation: Element-/Connector-Zählung per Skript (immer nach Write re-readen)
