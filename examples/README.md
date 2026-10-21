@@ -1,4 +1,4 @@
-# Beispiel-Prosa → IR → EA-Skript (Testlauf für Sparx EA 17.x)
+# Beispiel-Prosa → IR → EA-Skript (Testlauf für Enterprise Architect 17.x)
 
 Diese Beispielkette dient als **Laufbeweis**: Sie zeigt die vollständige Pipeline
 von einem Stück Architektur-Prosa bis zum fertigen, ausführbaren EA-Skript.

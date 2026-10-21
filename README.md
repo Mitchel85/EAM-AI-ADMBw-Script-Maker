@@ -1,6 +1,6 @@
 # EAM-AI-ADMBw-Script-Maker — EA-Skripte für das ADMBw/NAFv4-Profil
 
-> **Generiert und verifiziert JavaScript-Skripte für Sparx Enterprise Architect (EA 17.x), die ADMBw/NAFv4-konforme Architekturmodelle erzeugen.**
+> Generiert und verifiziert JavaScript-Skripte für Sparx Systems Enterprise Architect (EA 17.x), die ADMBw/NAFv4-konforme Architekturmodelle erzeugen.
 
 Kern des Repos sind die **EA-Skript-Vorlagen** (Builder + Verifikation). Die **Wissensbasis** (Stereotype, Topologie, Viewpoints) ist der Treibstoff für das LLM, das Prosa in die Skript-Eingabe (IR-JSON) übersetzt.
 
@@ -78,7 +78,7 @@ Dieses Repository ist so strukturiert, dass es direkt in **jede beliebige Chatbo
 
 ---
 
-## 🛠️ Benutzung in Sparx Enterprise Architect
+## 🛠️ Benutzung in Enterprise Architect
 
 1. **EA-Scripting-Fenster öffnen:**  
    In Sparx EA 17: `Tools` → `Scripting` (oder `Specialize` → `Scripting`).
@@ -117,3 +117,7 @@ node tests/run_tests.js
 
 - **Autor:** Michael Estel ([Mitchel85](https://github.com/Mitchel85))
 - **Lizenz:** MIT License
+
+## Rechtliches
+
+Der EAM-AI-ADMBw-Script-Maker ist ein unabhängiges Drittanbieter-Produkt. Es ist nicht mit der Sparx Systems Pty Ltd verbunden, wird von dieser nicht unterstützt und nicht gesponsert. „Sparx Systems“ und „Enterprise Architect“ sind Marken oder eingetragene Marken der Sparx Systems Pty Ltd.

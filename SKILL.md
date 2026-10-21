@@ -3,7 +3,7 @@ name: eam-ai-admbw-script-maker
 description: "Use when generating Sparx EA JS to build ADMBw from prose."
 ---
 
-# Sparx EA Scripting — Prosa → EA-JavaScript → ADMBw-Architektur
+# EA-Scripting — Prosa → EA-JavaScript → ADMBw-Architektur
 
 ## When to Use
 
